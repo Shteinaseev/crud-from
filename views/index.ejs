@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="sr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Učenici - CRUD</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+
+  <% if (message) { %>
+    <p class="message">
+      <%= message %>
+    </p>
+    <% } %>
+      <div class="container">
+
+        <!-- Поиск по ID -->
+        <form method="GET" class="form get-form">
+          <div class="form-group">
+            <label for="id">Pretraga po ID:</label>
+            <input type="number" id="id" name="id" placeholder="Unesite ID">
+            <button class="post-button" type="submit">Pronađi</button>
+          </div>
+        </form>
+
+        <!-- Форма добавления / редактирования -->
+        <form method="POST" action="/ucenik" class="form post-from">
+          <input type="hidden" name="id" value="<%= pronadjen ? pronadjen.id : '' %>">
+          <input type="hidden" name="akcija" value="<%= pronadjen ? 'izmeni' : 'dodaj' %>">
+
+          <div class="form-group">
+            <label for="ime">Ime:</label>
+            <input type="text" id="ime" name="ime" value="<%= pronadjen ? pronadjen.ime : '' %>" required>
+          </div>
+
+          <div class="form-group">
+            <label for="prezime">Prezime:</label>
+            <input type="text" id="prezime" name="prezime" value="<%= pronadjen ? pronadjen.prezime : '' %>" required>
+          </div>
+
+          <div class="form-group">
+            <label for="jmbg">JMBG:</label>
+            <input type="text" id="jmbg" name="jmbg" maxlength="13" value="<%= pronadjen ? pronadjen.jmbg : '' %>"
+              required>
+          </div>
+
+          <div class="form-group">
+            <label for="adresa">Adresa:</label>
+            <input type="text" id="adresa" name="adresa" value="<%= pronadjen ? pronadjen.adresa || '' : '' %>">
+          </div>
+
+          <button class="post-button" type="submit">
+            <%= pronadjen ? 'Sačuvaj izmene' : 'Dodaj učenika' %>
+          </button>
+
+          <% if (pronadjen) { %>
+            <a href="/">Otkaži izmenu</a>
+            <% } %>
+        </form>
+
+        <div class="students-list">
+          <% if (ucenici.length> 0) { %>
+            <% ucenici.forEach(u=> { %>
+              <div class="student-card">
+                <div class="card-header">
+                  <span class="card-id">ID: <%= u.id %></span>
+                  <div class="card-actions">
+                    <a href="/?id=<%= u.id %>" class="edit">Promeniti</a>
+                    <form method="POST" action="/obrisi" style="display:inline;">
+                      <input type="hidden" name="id" value="<%= u.id %>">
+                      <button type="submit" class="danger"
+                        onclick="return confirm('Да ли сте сигурни да желите да га обришете?')">Obrisati</button>
+                    </form>
+                  </div>
+                </div>
+
+                <div class="card-content">
+                  <div class="field">
+                    <span class="field-label">Ime:</span>
+                    <span class="field-value">
+                      <%= u.ime %>
+                    </span>
+                  </div>
+                  <div class="field">
+                    <span class="field-label">Prezime:</span>
+                    <span class="field-value">
+                      <%= u.prezime %>
+                    </span>
+                  </div>
+                  <div class="field">
+                    <span class="field-label">JMBG:</span>
+                    <span class="field-value">
+                      <%= u.jmbg %>
+                    </span>
+                  </div>
+                  <div class="field">
+                    <span class="field-label">Adres:</span>
+                    <span class="field-value">
+                      <%= u.adresa || '—' %>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <% }) %>
+                <% } else { %>
+                  <p class="no-data">У бази података још увек нема студената.</p>
+                  <% } %>
+        </div>
+      </div>
+</body>
+
+</html>
