@@ -221,9 +221,11 @@ a {
     grid-area: students-lists;
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
-    margin-top: 1.5rem;
     flex-wrap: wrap;
+    row-gap: 1.2rem;
+    margin-top: 1.5rem;
+    align-content: flex-start;
+    column-gap: 0.8rem;
 }
 
 .student-card {
