@@ -223,6 +223,7 @@ a {
     flex-direction: column;
     gap: 1.2rem;
     margin-top: 1.5rem;
+    flex-wrap: wrap;
 }
 
 .student-card {
